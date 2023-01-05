@@ -96,6 +96,7 @@ const creditAction = async (req, res) => {
 const logout = (req, res) => {
     // Destroy session data
     req.session.destroy();
+    res.clearCookie('token');
     res.render('home', { nav: 'nav.css', style: 'home.css', title: 'Pizza App' });
 }
 

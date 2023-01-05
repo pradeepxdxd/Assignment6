@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const userModel = require('../model/registSchema');
 const mod = require('../packages');
 const {validationResult} = mod.express_validator;
@@ -19,6 +20,8 @@ const login = async (req, res) => {
             if (bcrypt.compareSync(pass, data.pass)) {
                 session = req.session;
                 session.email = email;
+                const token = jwt.sign({_id : data._id, uname : data.name, time : Date()}, process.env.SECRET_KEY);
+                res.cookie("token", token);
                 res.redirect('/menu/list');
             }
             else {
